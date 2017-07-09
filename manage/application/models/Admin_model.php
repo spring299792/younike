@@ -63,12 +63,12 @@ class admin_model extends CI_Model
 	}
 
 	function getPages(){
-		$rows=$this->db->get('contact')->result_array();
+		$rows=$this->db->order_by('sort','asc')->get('page')->result_array();
 		return $rows;
 	}
 
 	function getPageInfo($id){
-		$row=$this->db->where('id',$id)->get('contact')->first_row('array');
+		$row=$this->db->where('id',$id)->get('page')->first_row('array');
 		return $row;
 	}
 

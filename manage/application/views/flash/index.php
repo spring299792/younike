@@ -23,8 +23,8 @@
   <div class="container-fluid">
     <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-pushpin"></i></span>
-            <h5>幻灯管理</h5>
-            <span style="float:right;margin:7px;"><a href="<?=MANAGE_URL;?><?=base_url();?>flash/add/?pid=<?=$pid?>" class="btn btn-success">添加幻灯</a></span>
+            <h5><?=getFlashType($type)?>管理</h5>
+            <span style="float:right;margin:7px;"><a href="<?=MANAGE_URL;?><?=base_url();?>flash/add/?type=<?=$type?>" class="btn btn-success">添加</a></span>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table" id="datalist">
@@ -62,7 +62,7 @@
       "lengthChange": false,
     });
      table.page.len( 20 ).draw();
-     table.order( [ 0, 'desc' ] ).draw();
+     table.order( [ 4, 'asc' ] ).draw();
  } );
 
 //ajax设置状态

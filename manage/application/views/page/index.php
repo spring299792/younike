@@ -32,7 +32,8 @@
                 <tr>
                   <th>单页ID</th>
                   <th>单页名称</th>
-                  <th>url</th>
+                  <th>单页类型</th>
+                  <th>排序</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -40,10 +41,10 @@
               <?foreach($list as $vo):?>
                 <tr class="gradeX">
                   <td width="6%"><?=$vo['id']?></td>
-                  <td width="10%"><?=$vo['name']?></td>
-                  <td width="10%"><?=$vo['url']?></td>
-                  
-                  <td width="15%"><a href="<?=MANAGE_URL;?><?=base_url();?>Page/edit?id=<?=$vo['id']?>">编辑</a>　　<a href="javascript:;" onclick="return delcheck(<?=$vo['id']?>);">删除</a></td>
+                  <td width="10%"><?=$vo['title']?></td>
+                  <td width="10%"><?php if($vo['type'] == "page"){ echo "单页";}else{ echo "列表";}?></td>
+                    <td width="10%"><?=$vo['sort']?></td>
+                  <td width="15%"><?php if($vo['type'] == 'list'):?><a href="<?=MANAGE_URL;?><?=base_url();?>News/index/<?=$vo['id']?>">内容</a>　　<?php endif;?><a href="<?=MANAGE_URL;?><?=base_url();?>Page/edit?id=<?=$vo['id']?>">编辑</a>　　<a href="javascript:;" onclick="return delcheck(<?=$vo['id']?>);">删除</a></td>
                 </tr>
               <?endforeach;?>
               </tbody>
@@ -59,7 +60,7 @@
       "lengthChange": false,
     });
      table.page.len( 20 ).draw();
-     table.order( [ 0, 'desc' ] ).draw();
+     table.order( [ 3, 'asc' ] ).draw();
  } );
 
   function delcheck(id){

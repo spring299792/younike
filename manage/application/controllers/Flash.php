@@ -2,43 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Flash extends MY_Controller {
-	public function index()
+	public function index($type)
 	{
-			
-		$pid=intval($this->input->get('pid'));
-		switch($pid){
-			case '3':
-				$flag="102";
-				break;
-			case '2':
-				$flag="98";
-				break;
-			default:
-				$flag="97";
-				break;
-		}
-		$data = $this->_common($flag);
-		$data['list']=$this->news_model->getFlash($pid);
+		$data = $this->_common();
+		$data['list']=$this->news_model->getFlash($type);
 		//echo $this->db->last_query();exit;
-		$data['pid']=$pid;
+		$data['type']=$type;
 		$this->load->view('flash/index',$data);
 	}
 
-	public function add(){	
-		$pid=intval($this->input->get('pid'));
-		switch($pid){
-			case '3':
-				$flag="102";
-				break;
-			case '2':
-				$flag="98";
-				break;
-			default:
-				$flag="97";
-				break;
-		}
-		$data = $this->_common($flag);
-		$data['pid']=$pid;
+	public function add(){
+        $type=addslashes($this->input->get('type'));
+		$data = $this->_common();
+		$data['type']=$type;
 		$this->load->view('flash/edit',$data);
 	}
 
@@ -46,7 +22,7 @@ class Flash extends MY_Controller {
 		$id=intval($this->input->post('id',true));
 		//文件上传
 		$dir = '../data/flash/';
-		$allowedext=array('gif','jpg','png','pdf');
+		$allowedext=array('gif','jpg','png');
 		$allowedsize=2048000;
 		$filenames="";
 		if($id>0){
@@ -94,27 +70,16 @@ class Flash extends MY_Controller {
 			$aid=$this->db->insert_id();
 			$msg="幻灯发布成功";
 		}
-		$pid=intval($this->input->post('pid'));
-		echo "<script>alert('".$msg."');location.href='".MANAGE_URL.base_url()."flash/?pid=".$pid."';</script>";
+		$type=addslashes($this->input->post('type'));
+		echo "<script>alert('".$msg."');location.href='".MANAGE_URL.base_url()."flash/index/".$type."';</script>";
 	}
 	public function edit(){
 		$id=intval($this->input->get('id',true));
 		
 		$row=$this->news_model->getflashInfo($id);
-		$pid=$row['pid'];
-		switch($pid){
-			case '3':
-				$flag="102";
-				break;
-			case '2':
-				$flag="98";
-				break;
-			default:
-				$flag="97";
-				break;
-		}
-		$data = $this->_common($flag);
-		$data['pid']=$pid;
+		$type=$row['type'];
+		$data = $this->_common();
+		$data['type']=$type;
 
 		$data['row']=$row;
 		$this->load->view('flash/edit',$data);
@@ -124,7 +89,7 @@ class Flash extends MY_Controller {
 		$id=intval($this->input->get('id',true));
 		$row=$this->news_model->getflashInfo($id);
 		$this->db->delete('flash', array('id' => $id)); 
-		echo "<script>location.href='".MANAGE_URL.base_url()."flash/?pid=".$row['pid']."';</script>";
+		echo "<script>location.href='".MANAGE_URL.base_url()."flash/index/".$row['type']."';</script>";
 	}
 
 }

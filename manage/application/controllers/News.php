@@ -5,33 +5,13 @@ class News extends MY_Controller {
 	public $types;
 	function __construct(){
 		parent :: __construct();
-		$this->types=array('xinwen','wenzhang','xiazai','biaozhun','zhaopin');
+		//$this->types=array('active','page');
 	}
 	public function index($type)
 	{
-
 		$type=addslashes($type);
-		if(!in_array($type, $this->types)){
-			show_404();
-		}
-		switch($type){
-			case 'wenzhang':
-				$flag="92";
-				break;
-			case 'xiazai':
-				$flag="93";
-				break;
-			case 'biaozhun':
-				$flag="95";
-				break;
-			case 'zhaopin':
-				$flag="96";
-				break;
-			default:
-				$flag="91";
-				break;
-		}
-		$data = $this->_common($flag);
+
+		$data = $this->_common();
 		$data['list']=$this->news_model->getNews($type);
 		$data['type']=$type;
 		$this->load->view('news/index',$data);
@@ -39,25 +19,7 @@ class News extends MY_Controller {
 
 	public function add(){
 		$type=addslashes($this->input->get('type'));
-		//$flag=$this->admin_model->getFlag($fid);
-		switch($type){
-			case 'wenzhang':
-				$flag="92";
-				break;
-			case 'xiazai':
-				$flag="93";
-				break;
-			case 'biaozhun':
-				$flag="95";
-				break;
-			case 'zhaopin':
-				$flag="96";
-				break;
-			default:
-				$flag="91";
-				break;
-		}
-		$data = $this->_common($flag);
+		$data = $this->_common();
 		$data['type']=$type;
 		$this->load->view('news/edit',$data);
 	}
@@ -87,6 +49,7 @@ class News extends MY_Controller {
 			// 	$filename=addslashes($this->input->post('img',true));
 			// }
 			$_POST['pubdate']=time();
+            $_POST['act_date'] = implode(" - ",$_POST['act_date']);
 			$data=$this->create();
 			// $data=array(
 			// 	'title'=>$this->input->post('title',true),
@@ -99,7 +62,7 @@ class News extends MY_Controller {
 			$this->db->where('id', $id);
 			$this->db->update('news',$data);
 			//echo $this->db->last_query();exit;
-			$msg="修改新闻成功";
+			$msg="修改成功";
 			// $nrow=$this->news_model->getNewsInfo($id);
 			// $cid=$nrow['cid'];
 		}else{
@@ -130,40 +93,26 @@ class News extends MY_Controller {
 			// 	'create_time'=>strtotime($this->input->post('create_time',true)),
 			// 	);
 			$_POST['pubdate']=time();
+			$_POST['act_date'] = implode(" - ",$_POST['act_date']);
 			$data=$this->create();
 			$this->db->insert('news',$data);
 			//echo $this->db->last_query();exit;
 			$aid=$this->db->insert_id();
-			$msg="新闻发布成功";
+			$msg="发布成功";
 		}
 		$type=addslashes($this->input->post('type',true));
-		echo "<script>alert('".$msg."');location.href='".MANAGE_URL.base_url()."News/".$type."';</script>";
+		echo "<script>alert('".$msg."');location.href='".MANAGE_URL.base_url()."News/index/".$type."';</script>";
 	}
 	public function edit(){
 		$id=intval($this->input->get('id',true));
 		
 		$row=$this->news_model->getNewsInfo($id);
 		$type=$row['type'];
-		switch($type){
-			case 'wenzhang':
-				$flag="92";
-				break;
-			case 'xiazai':
-				$flag="93";
-				break;
-			case 'biaozhun':
-				$flag="95";
-				break;
-			case 'zhaopin':
-				$flag="96";
-				break;
-			default:
-				$flag="91";
-				break;
-		}
-		$data = $this->_common($flag);
+		$data = $this->_common();
 
 		$data['row']=$row;
+        // 处理时间
+        $data['row']['act_date'] = explode(" - ",$row['act_date']);
 		$this->load->view('news/edit',$data);
 	}
 

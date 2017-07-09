@@ -834,4 +834,20 @@ function toTime($time) {
 	$ti=explode('-',$var[0]);
 	return mktime(0,0,0,$ti[1],$ti[2],$ti[0]);
 }
+
+function getFlashType($type){
+     $str = "";
+     switch($type){
+         case 'four':
+             $str = "首页四图";
+             break;
+         case 'adv':
+             $str = "右侧广告";
+             break;
+         default:
+             $str = "首页焦点图";
+             break;
+     }
+     return $str;
+}
 ?>

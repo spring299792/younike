@@ -23,15 +23,20 @@
   <div class="container-fluid">
     <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-pushpin"></i></span>
-            <h5>新闻列表</h5>
-            <span style="float:right;margin:7px;"><a href="<?=MANAGE_URL;?><?=base_url();?>news/add/?type=<?=$type?>" class="btn btn-success">添加新闻</a></span>
+            <h5><?php if($type == 'active'):?>活动<?php else:?>单页<?php endif;?>列表</h5>
+            <span style="float:right;margin:7px;"><a href="<?=MANAGE_URL;?><?=base_url();?>News/add/?type=<?=$type?>" class="btn btn-success">添加<?php if($type == 'active'):?>活动<?php else:?>单页内容<?php endif;?></a></span>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table" id="datalist">
             <thead>
                 <tr>
                   <th>ID</th>
-                  <th>标题</th>
+                  <th><?php if($type == 'active'):?>活动名称<?php else:?>标题<?php endif;?></th>
+                    <?php if($type == 'active'):?>
+                        <th>活动时间</th>
+                        <th>活动简介</th>
+                        <th>点击次数</th>
+                    <?php endif;?>
                   <th>发表时间</th>
                   <th>操作</th>
                 </tr>
@@ -40,10 +45,15 @@
               <?foreach($list as $vo):?>
                 <tr class="gradeX">
                   <td width="2%"><?=$vo['id']?></td>
-                  <td width="30%"><?=$vo['name']?></td>
-                  <td width="4%"><?echo date("Y-m-d",$vo['pubdate']);?></td>
+                  <td width="25%"><?=$vo['title']?></td>
+                  <?php if($type == 'active'):?>
+                      <td width="20%"><?=$vo['act_date']?></td>
+                      <td width="20%"><?=$vo['description']?></td>
+                      <td width="10%"><?=$vo['click']?></td>
+                  <?php endif;?>
+                  <td width="10%"><?echo date("Y-m-d",$vo['pubdate']);?></td>
 
-                  <td width="10%"><a href="<?=MANAGE_URL;?><?=base_url();?>news/edit?id=<?=$vo['id']?>">编辑</a>　　<a href="javascript:;" onclick="return delcheck(<?=$vo['id']?>);">删除</a></td>
+                  <td width="10%"><a href="<?=MANAGE_URL;?><?=base_url();?>News/edit?id=<?=$vo['id']?>">编辑</a>　　<a href="javascript:;" onclick="return delcheck(<?=$vo['id']?>);">删除</a></td>
                 </tr>
               <?endforeach;?>
               </tbody>

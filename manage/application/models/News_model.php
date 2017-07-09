@@ -25,26 +25,9 @@ class news_model extends CI_Model
 		return $row;
 	}
 
-	/**
-	* 获取资质列表
-	*/
-	function getSupports($cid=0){
-		//$rows=$this->db->where('cid',$cid)->get('news')->result_array();
-		$rows=$this->db->get('support')->result_array();
-		return $rows;
-	}
-
-	/**
-	* 根据id获取资质详细信息
-	*/
-	function getSupportInfo($id){
-		$row=$this->db->where('id',$id)->get('support')->first_row('array');
-		return $row;
-	}
-
-	function getFlash($pid=0){
+	function getFlash($type='flash'){
 		//$rows=$this->db->get('news')->result_array();
-		$rows=$this->db->where('pid',$pid)->order_by('sort','asc')->get('flash')->result_array();
+		$rows=$this->db->where('type',$type)->order_by('sort','asc')->get('flash')->result_array();
 		return $rows;
 	}
 	function getFlashInfo($id){
@@ -52,11 +35,11 @@ class news_model extends CI_Model
 		return $row;
 	}
 	function getProduct($type){
-		$rows=$this->db->query("select a.*,b.name as cname from think_product a left join think_category b on a.cid=b.id where a.type='{$type}' order by a.id desc")->result_array();
+		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.cid=b.id order by a.sort asc,a.id desc")->result_array();
 		return $rows;
 	}
 	function getProductInfo($id){
-		$rows=$this->db->query("select a.*,b.name as cname from think_product a left join think_category b on a.cid=b.id where a.id=$id")->first_row('array');
+		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.cid=b.id where a.id=$id")->first_row('array');
 		return $rows;
 	}
 

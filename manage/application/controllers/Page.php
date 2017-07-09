@@ -4,13 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Page extends MY_Controller {
 	public function index()
 	{
-		$data = $this->_common(13);
+		$data = $this->_common();
 		$data['list']=$this->admin_model->getPages();
 		$this->load->view('page/index',$data);
 	}
 
 	public function add(){
-		$data = $this->_common(13,1);
+		$data = $this->_common();
 		$this->load->view('page/edit',$data);
 	}
 
@@ -20,34 +20,19 @@ class Page extends MY_Controller {
 		//print_r($data);exit;
 		if($id>0){
 			$this->db->where('id', $id);
-			$this->db->update('contact',$data);
+			$this->db->update('page',$data);
 			$msg="修改单页成功";
 		}else{
-			$this->db->insert('contact',$data);
+			$this->db->insert('page',$data);
 			$msg="添加单页成功";
 		}
-		echo "<script>alert('".$msg."');history.back();</script>";
+        echo "<script>alert('".$msg."');location.href='".MANAGE_URL.base_url()."Page/';</script>";
 	}
 
 	public function edit(){
 		$id=intval($this->input->get('id'));
 		$row=$this->admin_model->getPageInfo($id);
-		switch($id){
-			case 1: 
-				$flag=100;
-				break;
-			case 2: 
-				$flag=99;
-				break;
-			case 4: 
-				$flag=103;
-				break;
-			default:
-				$flag=101;
-				break;
-		}
-		//echo $flag;
-		$data = $this->_common($flag,1);
+		$data = $this->_common();
 		$data['row']=$row;
 		$this->load->view('page/edit',$data);
 	}

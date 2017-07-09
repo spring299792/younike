@@ -28,14 +28,35 @@
           <div class="widget-content nopadding">
           <form action="<?=MANAGE_URL;?><?=base_url();?>page/insert" method="post" class="form-horizontal" enctype="multipart/form-data">
           <input type="hidden" name="id" value="<?if(isset($row['id'])){ echo $row['id'];}?>" />
-          <!-- <input type="hidden" name="cid" value="<?if(isset($row['cid'])){ echo $row['cid'];}?>" /> -->
             <div class="control-group">
               <label class="control-label">单页名称 :</label>
               <div class="controls">
-                <?if(isset($row['name'])){ echo $row['name'];}?>
+                  <input type="text" class="span8" placeholder="单页名称" name="title" value="<?if(isset($row['title'])){ echo $row['title'];}?>" />
               </div>
             </div>
-            <div class="control-group">
+              <div class="control-group">
+                  <label class="control-label">类型 :</label>
+                  <div class="controls">
+                      <select name="type" id="page_type">
+                              <option value="page" <?php if(isset($row['type']) && $row['type'] == 'page'):?>selected="selected"<?php endif;?>>单页</option>
+                              <option value="list" <?php if(isset($row['type']) && $row['type'] == 'list'):?>selected="selected"<?php endif;?>>列表</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="control-group">
+                  <label class="control-label">排序 :</label>
+                  <div class="controls">
+                      <input type="text" class="span8" placeholder="排序" name="sort" value="<?if(isset($row['sort'])){ echo $row['sort'];}else{ echo "99";}?>" />
+                  </div>
+              </div>
+              <?php if(!isset($row['type']) || $row['type'] == 'page'):?>
+<!--              <div class="control-group">-->
+<!--                  <label class="control-label">描述 :</label>-->
+<!--                  <div class="controls">-->
+<!--                      <textarea name="description" style="width:850px;height:50px;">--><?//if(isset($row['description'])){ echo $row['description'];}?><!--</textarea>-->
+<!--                  </div>-->
+<!--              </div>-->
+            <div class="control-group page_content">
               <label class="control-label">内容 :</label>
               <div class="controls">
                 <script id="container" name="content" type="text/plain">
@@ -43,6 +64,7 @@
     </script>
               </div>
             </div>
+              <?php endif;?>
 
 
             <div class="form-actions">
@@ -64,6 +86,14 @@
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
         var ue = UE.getEditor('container',{initialFrameWidth:960,initialFrameHeight:500});
+        $("#page_type").change(function(){
+            var v = $(this).val();
+            if(v == 'list'){
+                $(".page_content").hide();
+            }else{
+                $(".page_content").show();
+            }
+        })
     </script>
 
 </body>
