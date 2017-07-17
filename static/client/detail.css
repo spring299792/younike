@@ -125,7 +125,7 @@
 
 .share_wrap {
 	border: 1px solid #d8d8d8;
-	width: 673px;
+	width: 674px;
 	height: 36px;
 	padding: 8px 0 0 10px
 }
@@ -186,7 +186,7 @@
 
 .wave_line {
 	height: 10px;
-	background: url(../../../images/common/wave_line.png) repeat-x 0px -15px;
+	background: url(wave_line.png) repeat-x 0px -15px;
 	margin-top: 15px
 }
 
@@ -414,7 +414,7 @@
 }
 
 .serve_details .main_pic {
-	border: 1px solid #efefef;
+	border: 1px solid #ddd;
 	margin-bottom: 8px;
 	height: 400px;
 	overflow: hidden;
@@ -467,8 +467,6 @@
 }
 
 .serve_details .main_pic img {
-	max-width: 554px;
-	max-height: 400px;
 	display: inline;
 }
 

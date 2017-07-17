@@ -65,7 +65,7 @@
               <label>
               <span class="reserve_price"><?=$vo['price']?></span>
               <div class="reserve_other_price"> <span class="reserve_info2"><?=$vo['intro']?></span> </div>
-              <span class="reserve_info2  hover_btn"> </span><a href="/<?=base_url();?>product/<?=$vo['id']?>" class="right b_btn small" title="立即预定">立即预定</a>
+              <span class="reserve_info2  hover_btn"> </span><a href="/<?=base_url();?>fuwu/<?=$vo['id']?>" class="right b_btn small" title="立即预定">立即预定</a>
               </label>
             </div>
           </div>

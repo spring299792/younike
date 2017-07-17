@@ -30,7 +30,7 @@
                             <div class="serve_left">
                                 <div class="main_pic">
                                     <div class="img_wrap">
-                                        <img src="<?=WEB_URL?>data/product/<?=$info['img']?>" alt="<?=$info['name']?>">
+                                        <img src="<?=WEB_URL?>data/product/<?=$info['img']?>" alt="<?=$info['name']?>" width="685">
                                     </div>
 
 
@@ -67,37 +67,22 @@
                                                type="text">
                                     </div>
 
-                                    <span class="pn time_pn"><i></i>联系方式(可填写电话、微信、QQ、邮箱等)</span>
+                                    <span class="pn time_pn"><i></i>联系方式</span>
                                     <div class="date_input">
-                                        <input class="date-js-for-ie hasDatepicker" name="tel" value="" style="color: rgb(153, 153, 153);"
+                                        <input class="date-js-for-ie hasDatepicker" name="tel" placeholder="可填写电话、微信、QQ、邮箱等" value="" style="color: rgb(153, 153, 153);"
                                                type="text">
                                     </div>
 
-                                    <link rel="stylesheet" href="<? echo __STATIC__;?>/amaze/bootstrap-datetimepicker.min.css"/>
-                                    <script src="<? echo __STATIC__;?>/amaze/bootstrap-datetimepicker.min.js"></script>
-                                    <script src="<? echo __STATIC__;?>/amaze/bootstrap-datetimepicker.zh-CN.js"></script>
-
                                     <span class="pn time_pn"><i></i>服务时间</span>
                                     <div class="date_input">
-                                        <input class="date-js-for-ie hasDatepicker" id="date_start" value="如：2014-03-08"
-                                               placeholder="如：2014-03-08" id="date" style="color: rgb(153, 153, 153);"
-                                               type="text" readonly>
+                                        <input class="date-js-for-ie hasDatepicker" name="act_date" placeholder="<?=date('Y-m-d')?>" value="" style="color: rgb(153, 153, 153);"
+                                               type="text">
                                     </div>
-                                    <input type="hidden" id="dtp_input1" name="act_date" />
+
+
 
                                 </div>
-                                <script>
-                                    $("#date_start").datetimepicker({
-                                        language:  'zh-CN',
-                                        weekStart: 1,
-                                        autoclose: 1,
-                                        todayHighlight: 1,
-                                        startView: 2,
-                                        minView: 2,
-                                        forceParse: 0
 
-                                    })
-                                </script>
 
                                 <div class="prop_nv district_prop">
                                     <span class="pn"><i></i>服务地区</span>
@@ -109,6 +94,7 @@
                                         <?php endforeach;?>
 
                                     </ul>
+                                    <input type="hidden" id="select_area" name="area" value="">
                                     <div class="clearboth"></div>
                                     <div class="district-prompt"
                                          style="display: none; color: #666; background: #faeed4; margin: 0 10px 10px 0; line-height: 26px; text-align: left; border: 1px solid #f7a700; padding: 0px 10px 0px 10px;">
