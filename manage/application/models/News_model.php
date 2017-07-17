@@ -35,11 +35,11 @@ class news_model extends CI_Model
 		return $row;
 	}
 	function getProduct($type){
-		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.cid=b.id order by a.sort asc,a.id desc")->result_array();
+		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.type=b.id order by a.sort asc,a.id desc")->result_array();
 		return $rows;
 	}
 	function getProductInfo($id){
-		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.cid=b.id where a.id=$id")->first_row('array');
+		$rows=$this->db->query("select a.*,b.name as cname from you_product a left join you_category b on a.type=b.id where a.id=$id")->first_row('array');
 		return $rows;
 	}
 

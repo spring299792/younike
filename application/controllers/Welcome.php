@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 	function __construct(){
 		parent :: __construct();
+		$this->load->model('Index_model','mod');
 	}
 	/**
 	* 公共文件
@@ -14,12 +15,12 @@ class Welcome extends CI_Controller {
 		$data['type']=$type;
 		$data['style'] = $this->load->view('style', $data, true);
 		//产品分类
-		if($type=='pro' || $type=='fangan'){
-			$data['cid']=$cid;
-			$flist=$this->db->where('type',$type)->order_by('sort asc,id desc')->get('category')->result_array();
-			$data['clist']=$flist;
-			//print_r($data['clist']);
-		}
+//		if($type=='pro' || $type=='fangan'){
+//			$data['cid']=$cid;
+//			$flist=$this->db->where('type',$type)->order_by('sort asc,id desc')->get('category')->result_array();
+//			$data['clist']=$flist;
+//			//print_r($data['clist']);
+//		}
 		
 		
         $data['header'] = $this->load->view('header', $data, true);
@@ -41,61 +42,71 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$data = $this->_common();
-		$focus=$this->db->order_by('sort asc')->get('flash')->result_array();
-        //处理类型  1flash 2单图广告 3推荐产品
-        $fd=array();
-        if(!empty($focus)){
-            foreach($focus as $key=>$vo){
-                $fd[$vo['pid']][]=$vo;
-            }
-        }
-        $data['focus']=$fd;
+		$focus=$this->mod->getFlash('flash');
+		$four = $this->mod->getFlash('four',4);
+        $data['focus']=$focus;
+        $data['four']=$four;
+
+        $pro = $this->arclist(9,0,'product','');
+        //echo $this->db->last_query();
+        //print_r($pro);
+        $data['pros'] = $pro;
 		$this->load->view('index',$data);
 		
 		
 	}
 
 	//新闻列表
-	function news(){
-		$data=$this->_common('news');
-		$p=intval($this->input->get('page'));
-		if($p==0){
-			$p=1;
-		}
-		$limit=8;
-		$offset=$limit*($p-1);
-		$all=$this->arcall();
-		$pages=ceil($all/$limit);
-		$prev=$p-1;
-		if($p<=1){
-			$prev=1;
-		}
-		$next=$p+1;
-		if($p==$pages){
-			$next=$pages;
-		}
-		
-		$data['list']=$this->arclist($limit,$offset);
-		$data['pages']=$pages;
-		$data['prev']=$prev;
-		$data['next']=$next;
-		$data['type']='news';
-		$data['page']=$p;
-		$data['title']='新闻';
-		$data['typename']='新闻';
-		$data['posi']='新闻';
-		$this->load->view('txtlist',$data);
+	function huodong(){
+		$data=$this->_common();
+        $p=intval($this->input->get('page'));
+        //$keywords=addslashes($this->input->get_post('keywords',true));
+        if($p==0){
+            $p=1;
+        }
+        $limit=5;
+        $offset=$limit*($p-1);
+        //查询跟栏目和子栏目的所有id
+        $all = $this->arcall('news','active');
+        $pages=ceil($all/$limit);
+        $prev=$p-1;
+        if($p<=1){
+            $prev=1;
+        }
+        $next=$p+1;
+        if($p==$pages){
+            $next=$pages;
+        }
+        $list = $this->arclist($limit,$offset,'news','active');
+        $data['list']=$list;
+        $data['pages']=$pages;
+        $data['prev']=$prev;
+        $data['next']=$next;
+        $data['page']=$p;
+        // 活动右侧
+        //提取广告
+        //提取广告
+        $advs = $this->mod->getFlash('adv',1);
+        $data['advert'] = $advs[0];
+        $data['right'] = $this->load->view('hd_right', $data, true);
+		$this->load->view('huodong',$data);
 	}
 
-	function arcall($table="news"){
+	function arcall($table="news",$type=''){
+	    if($type !=''){
+	        $this->db->where('type',$type);
+        }
 		$list=$this->db->get($table)->result_array();
 		//echo $this->db->last_query();
 		return count($list);
 	}
 
-	function arclist($limit=9,$offset=0,$table="news",$keywords=""){
+	function arclist($limit=9,$offset=0,$table="news",$type='active',$keywords=""){
+        if($type !=''){
+            $this->db->where('type',$type);
+        }
 		if($keywords){
-			$list=$this->db->query("select * from think_".$table." where title like %$keywords% order by id desc limit $offset,$limit")->result_array();
+			$list=$this->db->query("select * from you_".$table." where title like %$keywords% and type= '{$type}' order by id desc limit $offset,$limit")->result_array();
 		}else{
 			$list=$this->db->limit($limit,$offset)->order_by('id desc')->get($table)->result_array();
 		}
@@ -105,187 +116,151 @@ class Welcome extends CI_Controller {
 	}
 
 	//产品列表
-	function product($cid){
-		
-		$p=intval($this->input->get('page'));
-		$cid=intval($cid);
-		//查询父级信息
-		$cinfo=$this->db->where('id',$cid)->get('category')->first_row('array');
-		if($cinfo['fid']==0){
-			$data['fid']=$cid;
-		}else{
-			$data['fid']=$cinfo['fid'];
-		}
-		$data=$this->_common('pro',$cid);
-		//$keywords=addslashes($this->input->get_post('keywords',true));
-		if($p==0){
-			$p=1;
-		}
-		$limit=12;
-		$offset=$limit*($p-1);
-		//查询跟栏目和子栏目的所有id
-		if($cid>0){
-			//$all=$this->db->where('cid',$cid)->get('product')->result_array();
-			$all=$this->db->query("select * from think_product where cid = $cid")->result_array();
-		}else{
-			$all=$this->db->get('product')->result_array();
-		}
-		$all=count($all);
-		$pages=ceil($all/$limit);
-		$prev=$p-1;
-		if($p<=1){
-			$prev=1;
-		}
-		$next=$p+1;
-		if($p==$pages){
-			$next=$pages;
-		}
-		if($cid>0){
-			$list=$this->db->query("select * from think_product where cid =$cid order by sort asc,id desc limit $offset,$limit")->result_array();
-		}else{
-			$list=$this->db->limit($limit,$offset)->order_by('id','desc')->get('product')->result_array();
-		}
-		$data['list']=$list;
-		$data['pages']=$pages;
-		$data['prev']=$prev;
-		$data['next']=$next;
-		$data['type']='product';
-		$data['page']=$p;
-		//$data['keywords']=$keywords;
-		$data['cid']=$cid;
-		$data['title']='产品与服务';
-		$data['typename']='产品与服务';
-		$data['posi']='产品与服务';
-		$this->load->view('imglist',$data);
+	function fuwu($cid=''){
+        $data=$this->_common();
+        $p=intval($this->input->get('page'));
+        //$keywords=addslashes($this->input->get_post('keywords',true));
+        if($p==0){
+            $p=1;
+        }
+        $limit=9;
+        $offset=$limit*($p-1);
+        //查询跟栏目和子栏目的所有id
+        $all = $this->arcall('product',$cid);
+        $pages=ceil($all/$limit);
+        $prev=$p-1;
+        if($p<=1){
+            $prev=1;
+        }
+        $next=$p+1;
+        if($p==$pages){
+            $next=$pages;
+        }
+        $list = $this->arclist($limit,$offset,'product',$cid);
+        //echo $this->db->last_query();
+        $data['list']=$list;
+        $data['pages']=$pages;
+        $data['prev']=$prev;
+        $data['next']=$next;
+        $data['page']=$p;
+        // 提取分类
+        $data['clist'] = $this->arclist(100,0,'category','pro');
+        //echo $this->db->last_query();
+        $data['cid'] = $cid;
+		$this->load->view('fuwu',$data);
 	}
 
-	//解决方案
-	function fangan($cid){
-		
-		$p=intval($this->input->get('page'));
-		$cid=intval($cid);
-		//查询父级信息
-		$cinfo=$this->db->where('id',$cid)->get('category')->first_row('array');
-		if($cinfo['fid']==0){
-			$data['fid']=$cid;
-		}else{
-			$data['fid']=$cinfo['fid'];
-		}
-		$data=$this->_common('fangan',$cid);
-		//$keywords=addslashes($this->input->get_post('keywords',true));
-		if($p==0){
-			$p=1;
-		}
-		$limit=12;
-		$offset=$limit*($p-1);
-		//查询跟栏目和子栏目的所有id
-		if($cid>0){
-			//$all=$this->db->where('cid',$cid)->get('product')->result_array();
-			$all=$this->db->query("select * from think_product where cid = $cid")->result_array();
-		}else{
-			$all=$this->db->get('product')->result_array();
-		}
-		$all=count($all);
-		$pages=ceil($all/$limit);
-		$prev=$p-1;
-		if($p<=1){
-			$prev=1;
-		}
-		$next=$p+1;
-		if($p==$pages){
-			$next=$pages;
-		}
-		if($cid>0){
-			$list=$this->db->query("select * from think_product where cid =$cid order by sort asc,id desc limit $offset,$limit")->result_array();
-		}else{
-			$list=$this->db->limit($limit,$offset)->order_by('id','desc')->get('product')->result_array();
-		}
-		$data['list']=$list;
-		$data['pages']=$pages;
-		$data['prev']=$prev;
-		$data['next']=$next;
-		$data['type']='fangan';
-		$data['page']=$p;
-		//$data['keywords']=$keywords;
-		$data['cid']=$cid;
-		$data['title']='解决方案';
-		$data['typename']='解决方案';
-		$data['posi']='解决方案';
-		$this->load->view('imglist',$data);
-	}
-
-	function getSonId($cid){
-		$ids=$cid;
-		$rows=$this->db->where('fid',$cid)->get('category')->result_array();
-		if($rows && count($rows)>0){
-			foreach($rows as $v){
-				$ids.=",".$v['id'];
-			}
-		}
-		return $ids;
-	}
-
-	
-	function view($id){
-		$id=intval($id);
-		if($id>0){
-			$data=$this->_common('news');
-			$data['vo']=$this->db->where('id',$id)->get('news')->first_row('array');
-			$data['title']=$data['vo']['name'];
-			$data['typename']='<a href="'.WEB_URL.base_url().'news">新闻</a> &gt; <a href="'.WEB_URL.base_url().'news/view/'.$data['vo']['id'].'"></a> &gt; '.substr($data['vo']['name'],0,95);
-			$data['posi']=$data['typename'];
-			$this->load->view('content',$data);
-		}else{
-			show_404();
-		}
-	}
-
-	function pview($id){
-		$id=intval($id);
-		if($id>0){
-			$vo=$this->db->where('id',$id)->get('product')->first_row('array');
-			$data=$this->_common($vo['type'],$vo['cid']);
-			$data['vo']=$vo;
-			$data['title']=$data['vo']['name'];
-			$type=$data['vo']['type'];
-			if($type == 'pro'){
-				$type = 'product';
-			}
-			$type=='product' ? $typename="产品与服务" : $typename="解决方案";
-			$data['typename']=$data['vo']['name'];
-			$data['posi']='<a href="'.WEB_URL.base_url().$type.'">'.$typename.'</a> <a href="'.WEB_URL.base_url().$type.'/view/'.$data['vo']['id'].'"></a> &gt; '.$data['vo']['name'];
-			$this->load->view('content',$data);
-		}else{
-			show_404();
-		}
-	}
+    /**
+     * 服务详情页
+     * @param $id
+     */
+	public function product($id){
+	    $id = intval($id);
+	    if($id == 0){
+	        show_404();
+	        exit;
+        }
+        $data=$this->_common();
+        $info = $this->mod->getProductInfo($id);
+        $data['info'] = $info;
+        // 提取地区
+        $data['clist'] = $this->arclist(100,0,'category','area');
+        $this->load->view('fuwu_view',$data);
+    }
 
 	//关于我们
 	function page($type){
-		$types=array('about','contact','zhaopin','zizhi');
-		$typenames=array('about'=>'关于我们','contact'=>'联系我们','zhaopin'=>'招聘信息','zizhi'=>'公司资质');
-        if(!in_array($type, $types)){
-            $type="about";
+	    // 查询对应英文名称信息
+        $info = $this->db->where('name',$type)->get('page')->row_array();
+        //print_r($info);
+        if(!$info){
+            show_404();
+            exit;
         }
 		$data=$this->_common($type);
-		$vo=$this->db->where('type',$type)->get('contact')->row_array();
-		//echo $this->db->last_query();
-		$typename=$typenames[$type];
+        // 查询所有单页列表
+        $pages = $this->mod->getPages();
+        $data['pages'] = $pages;
+        // 用于tab选中
+        $data['page_type'] = $type;
+        $data['page_nav'] = $this->load->view('page_header',$data,true);
+
 		//处理posi
-        $posi="";
-		$data['vo']=$vo;
-		$data['typename']=$typename;
-		$data['posi']=$typename;
-		$this->load->view('content',$data);
+		$data['info']=$info;
+
+		// 根据类型判断模板形式
+        if($info['type'] == 'list'){
+            // 查找列表
+            $p=intval($this->input->get('page'));
+            //$keywords=addslashes($this->input->get_post('keywords',true));
+            if($p==0){
+                $p=1;
+            }
+            $limit=10;
+            $offset=$limit*($p-1);
+            //查询跟栏目和子栏目的所有id
+            $all = $this->arcall('news',$info['id']);
+            $pages=ceil($all/$limit);
+            $prev=$p-1;
+            if($p<=1){
+                $prev=1;
+            }
+            $next=$p+1;
+            if($p==$pages){
+                $next=$pages;
+            }
+            $list = $this->arclist($limit,$offset,'news',$info['id']);
+            $data['list']=$list;
+            $data['pages']=$pages;
+            $data['prev']=$prev;
+            $data['next']=$next;
+            $data['page']=$p;
+            $this->load->view('page_list',$data);
+        }else{
+            $this->load->view('page',$data);
+        }
+
 	}
 
-	//联系我们
-	function contact(){
-		$data=$this->_common('contact');
-		$data['title']="Contact Us";
-		$data['typename']="Contact Us";
-		$data['vo']=$this->db->where('id',3)->get('contact')->first_row('array');
-		$this->load->view('content',$data);
-	}
+	// 新闻内容页
+    public function view($id){
+	    $id = intval($id);
+	    $info = $this->mod->getNewsInfo($id);
+	    if(!$info){
+            show_404();
+            exit;
+        }
+        $data=$this->_common();
+	    $data['info'] = $info;
+        // 查找当前栏目上一条和下一条
+
+        $data['next'] = $this->db->query("select * from you_news where type='{$info['type']}' and id<$id order by id desc limit 1")->row_array();
+        //echo  $this->db->last_query();
+        $data['prev'] = $this->db->query("select * from you_news where type='{$info['type']}' and id>$id order by id asc limit 1")->row_array();
+	    if($info['type'] !='active'){
+            $page = $this->mod->getPageInfo($info['type']);
+            $data['type'] = $page['name'];
+            // 查询所有单页列表
+            $pages = $this->mod->getPages();
+            $data['pages'] = $pages;
+            // 用于tab选中
+            $data['page_type'] = $data['type'];
+            $data['page_nav'] = $this->load->view('page_header',$data,true);
+
+            $data['flag'] = 'news';
+            $this->load->view('page',$data);
+        }else{
+	        //刷新页面，点击+1
+            $this->db->query("update you_news set click=click+1 where id=".$id);
+	        // 活动详情
+            //提取广告
+            $advs = $this->mod->getFlash('adv',1);
+            $data['advert'] = $advs[0];
+            $data['right'] = $this->load->view('hd_right', $data, true);
+            $this->load->view('view',$data);
+        }
+
+    }
+
 
 }

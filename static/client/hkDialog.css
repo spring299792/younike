@@ -1,0 +1,145 @@
+﻿body {
+    font-family: "Microsoft YaHei", Verdana, Arial, '宋体';
+    font-size: 12px;
+}
+.hk_dialog {
+    display: none;
+}
+.hk_dialog_bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9998;
+    opacity: 0.6;
+    min-height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: visible;
+    background: #666;
+    filter: Alpha(opacity=60);
+}
+.hk_dialog_wrap {
+    position: absolute;
+    z-index: 9999;
+    margin: auto;
+    border-top: 2px solid #21aae1;
+    box-shadow: 0 0 80px 0 rgba(0,0,0,.4);
+    background: #fff;
+    text-align: left;
+}
+.hk_dialog_close {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 34px;
+    height: 32px;
+    background: #21aae1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    color: #fff;
+}
+.hk_dialog_title {
+    font-size: 18px;
+    color: #333;
+    line-height: 34px;
+    height: 32px;
+    position: static;
+    display: block;
+    padding-left: 20px;
+    width: 100%;
+}
+.hk_dialog_content {
+    padding: 10px;
+    position: relative;
+}
+/*dialog_vedio*/
+.vedio_share_wrap {
+    line-height: 30px;
+    margin: 17px 0 11px;
+    padding-left: 10px;
+    font-size: 14px;
+}
+.vedio_share_wrap .share {
+    display: inline-block;
+    color: #fff;
+    width: 84px;
+    margin: 0 8px;
+    text-align: center;
+    border-radius: 15px;
+}
+.vedio_share_wrap .sina_share {
+    background-color: #ff6262;
+}
+.vedio_share_wrap .renren_share {
+    background-color: #5c8fe2;
+}
+.vedio_share_wrap .douban_share {
+    background-color: #32ac45;
+}
+.vedio_share_wrap .qzone_share {
+    background-color: #fdac13;
+}
+
+/*dialog_login*/
+.hk_dialog_content .login {
+    margin: 10px 30px 0 30px;
+    color: #666;
+}
+.hk_dialog_content .login input[type="text"] {
+    height: 30px;
+    width: 252px;
+}
+.hk_dialog_content .login span {
+    display: block;
+    line-height: 20px;
+    width: 100%;
+}
+.hk_dialog_content .login a.o_btn {
+    float: none;
+    margin: 0;
+    font-size: 16px;
+    width: 100%;
+    margin: 10px 0;
+}
+.hk_dialog_content .login label {
+    float: left;
+    margin-right: 10px;
+}
+.hk_dialog_content .login label input {
+    margin-right: 5px;
+    margin-top: 0;
+}
+.hk_dialog_content .login .alert_content {
+    background: #fdeded;
+    border: 1px solid #ff6662;
+    padding: 5px 5px;
+    margin-top: 4px !important;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+.hk_dialog_content .login .alert_content i {
+    display: block;
+    float: left;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    background: url(images/common/fs.png) -210px 0;
+}
+.hk_dialog_content .login .linktoregister {
+    margin-top: 10px;
+}
+.hk_dialog_content .login .forget_pwd {
+    float: right;
+}
+.hk_dialog_content .lion {
+    position: absolute;
+    right: -147px;
+    bottom: 0;
+    width:178px;
+    height:290px;
+    background: url(images/login_lion.png);
+}

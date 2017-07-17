@@ -1,0 +1,105 @@
+﻿/*hkCount*/
+.clearboth {
+    clear: both;
+}
+.hkCount_wrap, .hkCount_wrap1 {
+    float: left;
+    margin-right: 10px;
+}
+.hkCount {
+    width: 70px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    margin: 0 8px 10px 0;
+    float: left;
+}
+.hkCount_unit {
+    display: block;
+    float: left;
+    line-height: 40px;
+    font-size: 14px;
+    color: #000000;
+}
+.hkCount .hkCount_num {
+    color: #666;
+    padding: 0 6px;
+    margin: 0;
+    display: block;
+    float: left;
+    height: 40px;
+    width: 40px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    text-align: center;
+    line-height: 40px\9;
+    +line-height: 30px;
+    +height: 38px;
+    +width: 36px;
+}
+.hkCount_itemwrap {
+    float: right;
+    height: 100%;
+    border-left: 1px solid #d8d8d8;
+}
+.hkCount_wrap i {
+    display: block;
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    cursor: pointer;
+    background: url(images/select.png) no-repeat;
+}
+.hkCount_wrap i.hkCount_add {
+    background-position: -80px 6px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.hkCount_wrap i.hkCount_minus {
+    background-position: -66px 6px;
+}
+.hkCount_wrap i.hkCount_minus.disabled {
+    background-position: -80px -14px;
+    cursor: default;
+}
+.hkCount_wrap i.hkCount_add.disabled {
+    background-position: -53px 6px;
+    cursor: default;
+}
+.hkCount_wrap1 {
+    margin: 0 30px 10px 20px;
+}
+.hkCount_wrap1 .hkCount {
+    height: 30px;
+    width: 60px;
+    margin: 0;
+    position: relative;
+}
+.hkCount_wrap1 .hkCount_num {
+    width: 48px;
+    height: 30px;
+    line-height: 30px\9;
+}
+.hkCount_wrap1 .hkCount i {
+    position: absolute;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    font-size: 12px;
+    text-align: center;
+    font-style: normal;
+    margin-top: 8px;
+}
+.hkCount_wrap1 .hkCount i.hkCount_minus {
+    left: -20px;
+}
+.hkCount_wrap1 .hkCount i.hkCount_add {
+    right: -20px;
+}
+.hkCount_wrap1 .hkCount i.hkCount_minus.disabled, .hkCount_wrap1 .hkCount i.hkCount_add.disabled {
+    color: #ccc;
+}

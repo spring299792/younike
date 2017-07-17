@@ -1,0 +1,15 @@
+/* ����ͼ�� �Ѽ����� www.lanrentuku.com */
+
+/* css ���� */
+body,div,ul,li { padding: 0; margin: 0; }
+ul { list-style: none ; }
+img { border: none; }
+a { blr: expression(this.onFocus=this.blur()); outline: none; }
+
+/*����css*/
+.www51buycom { width: 1920px; height: 300px; position: relative; overflow:hidden; }
+
+/*���ְ�ť��ʽ*/
+.www51buycom .num { overflow:hidden; height: 25px; position: absolute; bottom:12px; left: 44%; zoom:1; z-index:3 }
+.www51buycom .num li { width: 25px; height: 25px; line-height: 25px; text-align: center; font-weight: 400; font-family: "΢���ź�", Arial; color: #FFFFFF; background: #444444; margin-right: 10px; border-radius:50%; cursor:pointer; float: left; }
+.www51buycom .num li.on { background: #FF7700; } /*��ǰ��*/

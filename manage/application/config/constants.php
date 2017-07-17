@@ -85,9 +85,9 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('MANAGE_NAME', '优尼客管理系统');//管理系统名称
-define('MANAGE_URL', 'http://localhost:8001/manage/');//后台管理地址
+define('MANAGE_URL', 'http://localhost:8007/manage/');//后台管理地址
 define('WEB_NAME', '优尼客');//站点名称
-define('WEB_URL', 'http://localhost:8001/');//站点地址
+define('WEB_URL', 'http://localhost:8007/');//站点地址
 define('__STATIC__', WEB_URL."static/");//站点静态地址
 define('__PUBLIC__', WEB_URL."public/");//站点公共地址
 define('LOGINTIME', 1);//登陆限制两次登录时间间隔

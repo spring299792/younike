@@ -33,6 +33,7 @@
                   <th>单页ID</th>
                   <th>单页名称</th>
                   <th>单页类型</th>
+                  <th>英文连接</th>
                   <th>排序</th>
                   <th>操作</th>
                 </tr>
@@ -43,6 +44,7 @@
                   <td width="6%"><?=$vo['id']?></td>
                   <td width="10%"><?=$vo['title']?></td>
                   <td width="10%"><?php if($vo['type'] == "page"){ echo "单页";}else{ echo "列表";}?></td>
+                    <td width="10%"><?=$vo['name']?></td>
                     <td width="10%"><?=$vo['sort']?></td>
                   <td width="15%"><?php if($vo['type'] == 'list'):?><a href="<?=MANAGE_URL;?><?=base_url();?>News/index/<?=$vo['id']?>">内容</a>　　<?php endif;?><a href="<?=MANAGE_URL;?><?=base_url();?>Page/edit?id=<?=$vo['id']?>">编辑</a>　　<a href="javascript:;" onclick="return delcheck(<?=$vo['id']?>);">删除</a></td>
                 </tr>

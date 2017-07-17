@@ -83,6 +83,13 @@
 
               </div>
             </div>
+              <div class="control-group">
+                  <label class="control-label">介绍(价格下面)：</label>
+                  <div class="controls">
+                      <TEXTAREA class="large bLeft" name="intro" style="width:700px;height:100px;"><?if(isset($row['intro'])){ echo $row['intro'];}?></textarea>
+
+                  </div>
+              </div>
 
             <div class="control-group">
               <label class="control-label">产品说明 :</label>

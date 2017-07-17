@@ -85,7 +85,11 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-define('WEB_NAME', '北京动力永兴信息技术有限公司');//站点名称
-define('WEB_URL', 'http://www.dlyxsoft.com/');//站点地址
+define('WEB_NAME', '优尼客');//站点名称
+define('WEB_KEYWORDS', '优尼客');//站点名称
+define('WEB_DESCRIPTION', '优尼客');//站点名称
+define('WEB_PHONE', '024-88888888');//站点名称
+define('WEB_REGION', '沈阳市和平南大街105号（辽宁省体育技术学院原址）');//站点名称
+define('WEB_URL', 'http://localhost:8007/');//站点地址
 define('__STATIC__', WEB_URL."static/");//站点静态地址
 

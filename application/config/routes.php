@@ -53,8 +53,15 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['^about'] = "welcome/page/about";
-$route['^contact'] = "welcome/page/contact";
+$route['^huodong'] = "welcome/huodong";
+$route['^huodong/(:num)'] = "welcome/view/$1";
+$route['^fuwu'] = "welcome/fuwu";
+$route['^fuwu_(:num)'] = "welcome/fuwu/$1";
+$route['^fuwu/(:num)'] = "welcome/product/$1";
+$route['^(:any)/(:num)'] = "welcome/view/$2";
+$route['^(:any)'] = "welcome/page/$1";
+
+
 $route['^zhaopin'] = "welcome/page/zhaopin";
 $route['^zizhi'] = "welcome/page/zizhi";
 $route['^news'] = "welcome/news";

@@ -109,7 +109,7 @@ class News extends MY_Controller {
 		$row=$this->news_model->getNewsInfo($id);
 		$type=$row['type'];
 		$data = $this->_common();
-
+        $data['type'] = $type;
 		$data['row']=$row;
         // 处理时间
         $data['row']['act_date'] = explode(" - ",$row['act_date']);

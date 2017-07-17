@@ -35,6 +35,12 @@
               </div>
             </div>
               <div class="control-group">
+                  <label class="control-label">英文连接(小写英文字符) :</label>
+                  <div class="controls">
+                      <input type="text" class="span8" placeholder="英文连接" name="name" value="<?if(isset($row['name'])){ echo $row['name'];}?>" />
+                  </div>
+              </div>
+              <div class="control-group">
                   <label class="control-label">类型 :</label>
                   <div class="controls">
                       <select name="type" id="page_type">
