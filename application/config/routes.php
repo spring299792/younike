@@ -58,6 +58,7 @@ $route['^huodong/(:num)'] = "welcome/view/$1";
 $route['^fuwu'] = "welcome/fuwu";
 $route['^fuwu_(:num)'] = "welcome/fuwu/$1";
 $route['^fuwu/(:num)'] = "welcome/product/$1";
+$route['^order'] = "welcome/order";
 $route['^(:any)/(:num)'] = "welcome/view/$2";
 $route['^(:any)'] = "welcome/page/$1";
 

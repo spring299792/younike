@@ -165,6 +165,9 @@ class Welcome extends CI_Controller {
         $data['info'] = $info;
         // 提取地区
         $data['clist'] = $this->arclist(100,0,'category','area');
+        //提取广告
+        $advs = $this->mod->getFlash('adv',1);
+        $data['advert'] = $advs[0];
         $this->load->view('fuwu_view',$data);
     }
 
@@ -260,6 +263,26 @@ class Welcome extends CI_Controller {
             $this->load->view('view',$data);
         }
 
+    }
+
+    public function order(){
+        $pid = intval($this->input->post('pid',true));
+        $name = addslashes($this->input->post('name',true));
+        $tel = addslashes($this->input->post('tel',true));
+        $act_date = addslashes($this->input->post('act_date',true));
+        $area = addslashes($this->input->post('area',true));
+        if($pid == 0 || $name == '' || $tel == '' || $act_date == '' || $act_date == '' || $area == ''){
+            exit('-1');
+        }
+        $data = array(
+            'pid' => $pid,
+            'name' => $name,
+            'tel' => $tel,
+            'act_date' => $act_date,
+            'area' => $area,
+        );
+        $this->db->insert('order',$data);
+        echo "1";
     }
 
 

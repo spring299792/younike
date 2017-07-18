@@ -111,7 +111,7 @@
 }
 
 .serve_right .line {
-	border-top: 5px solid #0793d9;
+	border-top: 5px solid #F7A726;
 	width: 382px;
 	height: 0;
 	margin: 0;
@@ -865,3 +865,4 @@ input.hasDatepicker{ margin-left:0px; border-radius: 5px;}
 	border-radius: 4px;
 	padding:0 6px;
 }
+.area_act{border: 1px solid #F7A726;}

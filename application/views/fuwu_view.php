@@ -72,14 +72,17 @@
                                         <input class="date-js-for-ie hasDatepicker" name="tel" placeholder="可填写电话、微信、QQ、邮箱等" value="" style="color: rgb(153, 153, 153);"
                                                type="text">
                                     </div>
-
+                                    <link rel="stylesheet" type="text/css" href="<?=__STATIC__;?>datetimepicker/jquery.datetimepicker.css"/>
                                     <span class="pn time_pn"><i></i>服务时间</span>
                                     <div class="date_input">
-                                        <input class="date-js-for-ie hasDatepicker" name="act_date" placeholder="<?=date('Y-m-d')?>" value="" style="color: rgb(153, 153, 153);"
+                                        <input class="date-js-for-ie hasDatepicker some_class" name="act_date" placeholder="<?=date('Y-m-d')?>" value="" style="color: rgb(153, 153, 153);"
                                                type="text">
                                     </div>
-
-
+                                    <script src="<?=__STATIC__;?>datetimepicker/build/jquery.datetimepicker.full.js"></script>
+                                    <script>
+                                        $.datetimepicker.setLocale('ch');//设置中文
+                                        $('.some_class').datetimepicker();
+                                    </script>
 
                                 </div>
 
@@ -102,7 +105,13 @@
                                              style="vertical-align: middle; padding-right: 3px;"><span></span>
                                     </div>
                                 </div>
-
+                                <script>
+                                    $(".hk_select").click(function(){
+                                        $(".hk_select").removeClass('area_act');
+                                        $(this).addClass('area_act');
+                                        $("#select_area").val($(this).children('span').html());
+                                    })
+                                </script>
                                 <div class="wave_line"></div>
                                 <div class="serve_maininfo">
                                     <div class="serve_info"></div>
@@ -110,26 +119,22 @@
                                         <div class="serve_price_wrap ">
                                             <div>
                                                 <span class="price_name">服务价格:</span><span class="serve_price"
-                                                                                           id="price">￥199.00</span>
+                                                                                           id="price"><?=$info['price']?></span>
 
                                             </div>
                                         </div>
 
                                         <div>
-                                            <span class="b_btn large disabled createOrder">请完善服务需求</span>
+                                            <span class="b_btn large createOrder">请完善服务需求</span>
                                         </div>
                                     </div>
                                     <div class="serve_promotion_info none"></div>
                                 </div>
-                                <form id="sevicesForm" name="sevicesForm"
-                                      action="http://www.homeking365.com/order/checkOrder" method="get">
-                                    <input name="servicesId" value="8" id="servicesId" type="hidden"> <input
-                                            name="quantity" value="1" type="hidden"> <input name="datetime"
-                                                                                            type="hidden">
-                                    <input name="skuId" type="hidden">
-                                </form>
                             </div>
 
+                        </div>
+                        <div class="panel activity-panel right_adv">
+                            <a href="<?=$advert['url']?>" target="_blank"><img src="<?=WEB_URL?>data/flash/<?=$advert['img']?>" alt="<?=$advert['title']?>" width="275"></a>
                         </div>
                     </div>
                 </div>
@@ -139,5 +144,53 @@
     </div>
 </div>
 <?= $footer ?>
+<script>
+    $(".createOrder").click(function(){
+        $(this).attr('disabled','disabled');
+        // 处理值
+        var name = $("input[name='name']").val();
+        var tel = $("input[name='tel']").val();
+        var act_date = $("input[name='act_date']").val();
+        var area = $("input[name='area']").val();
+        var pid = <?=$info['id']?>;
+        var flag = 0;
+        if(name == ''){
+            alert("请填写姓名");
+            flag++;
+            return false;
+        }
+        if(tel == ''){
+            alert("请填写联系方式");
+            flag++;
+            return false;
+        }
+        if(act_date == ''){
+            alert("请填写服务时间");
+            flag++;
+            return false;
+        }
+        if(area == ''){
+            alert("请填写服务时间");
+            flag++;
+            return false;
+        }
+        if(area == ''){
+            alert("请选择服务区域");
+            flag++;
+            return false;
+        }
+        if(pid>0 && flag == 0){
+            $.post('/<?=base_url()?>/order',{'name':name,'tel':tel,'act_date':act_date,'area':area,'pid':pid},function(data){
+                if(data == 1){
+                    alert('提交成功');
+                    location.reload();
+                }else{
+                    alert("数据提交错误");
+                }
+
+            })
+        }
+    })
+</script>
 </body>
 </html>

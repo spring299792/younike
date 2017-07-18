@@ -115,6 +115,24 @@ class Product extends MY_Controller {
 		echo "<script>location.href='".MANAGE_URL.base_url()."Product';</script>";
 	}
 
+    /**
+     * 服务预约
+     */
+    public function order(){
+        $data = $this->_common();
+        $data['list']=$this->news_model->getOrder();
+        $this->load->view('product/order',$data);
+    }
+
+    public function order_detail($id){
+        $id=intval($id);
+        $row=$this->news_model->getOrderInfo($id);
+        $data = $this->_common();
+        $data['row']=$row;
+        $this->load->view('product/order_detail',$data);
+
+    }
+
 	public function proimg(){
 		$data = $this->_common(105);
 		$pid=intval($this->input->get('pid',true));

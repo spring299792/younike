@@ -71,6 +71,15 @@ class news_model extends CI_Model
 		$row=$this->db->where('id',$id)->get('category')->first_row('array');
 		return $row;
 	}
+
+    function getOrder($type){
+        $rows=$this->db->query("select a.*,b.name as pname,b.price from you_order a left join you_product b on a.pid=b.id order by a.id desc")->result_array();
+        return $rows;
+    }
+    function getOrderInfo($id){
+        $rows=$this->db->query("select a.*,b.name as pname,b.price from you_order a left join you_product b on a.pid=b.id where a.id=$id")->first_row('array');
+        return $rows;
+    }
 	
 }
 ?>
